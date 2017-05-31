@@ -285,7 +285,6 @@ DEPENDENCIES
   devise!
   dropzonejs-rails
   erubis
-  execjs
   figaro (~> 1.1.0)
   geocoder
   jbuilder (~> 2.5)
