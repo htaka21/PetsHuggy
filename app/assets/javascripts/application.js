@@ -19,4 +19,5 @@
 //= require jquery-ui/i18n/datepicker-ja
 //= require toastr
 //= require dropzone
+//= require private_pub
 //= require turbolinks

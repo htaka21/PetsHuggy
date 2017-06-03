@@ -44,7 +44,7 @@ class ReservationsController < ApplicationController
           @reservation = current_user.reservations.where(start_date:date,end_date:date)
           @reservation.destroy_all
         end
-  end
+      end
 
       #新しい日付の予約をクリエイトする
       if selectedDates
@@ -53,12 +53,7 @@ class ReservationsController < ApplicationController
         end
       end
       
-      redirect_to :back, notice: "更新しました。" 
-
-
-         def back_url
-          request.referer
-         end
+      redirect_to :back, notice: "更新しました。"
 
     
 
@@ -71,6 +66,11 @@ class ReservationsController < ApplicationController
 
       #fee
       fee = (amount.to_i * 0.1).to_i
+
+      customer = Stripe::Customer.create(
+        source: params[:stripeToken],
+        description: 'Example customer'
+        )
 
       # Calculate the fee amount that goes to the application.
       begin
@@ -125,9 +125,13 @@ class ReservationsController < ApplicationController
 	  render json: result
 	end
 
+  def back_url
+  request.referer
+  end
+
 
   private
-   def reservations_params
+   def reservation_params
    	params.require(:reservation).permit(:start_date, :end_date, :price_pernight, :total_price, :listing_id)
    end
 
@@ -137,7 +141,4 @@ class ReservationsController < ApplicationController
    	check = listing.reservations.where("? < start_date AND end_date < ?",start_date,end_date)
    	check.size > 0? true : false
    end
-
-
-
 end
